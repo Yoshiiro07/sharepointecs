@@ -25,7 +25,7 @@ namespace sharepointecs.Services
         async Task<string[]> IGetPageSharepoint.MakeExtract(string requestPage)
         {
             //var teste = _configuration.GetValue<string>("SharepointSettings:SitePage");
-            var spmodel = await MakeExtractSharepointUserPass(requestPage);
+            var spmodel = await MakeExtractWithCertificate();
             return spmodel;         
         }
 
@@ -73,11 +73,12 @@ namespace sharepointecs.Services
             }
         }
 
-        private async static Task MakeExtractWithCertificate()
+        private async static Task<string[]> MakeExtractWithCertificate()
         {
-            var tenantName = "";
+            string[] spmodel = new string[20];
+
             var token = await GetAccessTokenWithCertificate();
-            var siteUrl = $"https://{tenantName}.sharepoint.com/sites/demo";
+            var siteUrl = $"https://3scyh4.sharepoint.com/";
 
             using (var context = new ClientContext(siteUrl))
             {
@@ -92,28 +93,40 @@ namespace sharepointecs.Services
                 context.ExecuteQuery();
                 Console.WriteLine(web.Title);
             }
+
+            return spmodel;
         }
 
         public async static Task<string> GetAccessTokenWithCertificate()
         {
-            var tenantName = "";
-            var clientId = "";
-            var certPath = "";
+            var tenantName = "cf64dcc3-3026-4cf2-b3c5-20eee4142f67";
+            var clientId = "cebf46fe-1f67-4ec7-ae53-900ebabf1da8";
+            
+            var certFileName = @"C:\cert\certificate.pfx";  //Cert path
+            //var certificate = new X509Certificate2(certFileName, "P@titos07", X509KeyStorageFlags.MachineKeySet);
+           
+            List<X509Certificate2> lstcertificates = new List<X509Certificate2>();
+            X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
+            store.Open(OpenFlags.OpenExistingOnly);
+            
+            foreach(X509Certificate2 foundcert in store.Certificates)
+            {
+                    if (foundcert.Issuer.Contains("Guilherme"))
+                    {
+                    lstcertificates.Add(foundcert);
+                    }
+            }
 
-            var certFileName = certPath;  //Cert path
-            var certPassword = "";
-            var certificate = new X509Certificate2(certFileName, certPassword,
-                    X509KeyStorageFlags.MachineKeySet);
-
-            var authority = $"https://login.microsoftonline.com/{tenantName}.onmicrosoft.com/";
+            var certificate = lstcertificates.FirstOrDefault();
+            var authority = $"https://login.microsoftonline.com/3scyh4.onmicrosoft.com/";
             var azureApp = ConfidentialClientApplicationBuilder.Create(clientId)
                 .WithAuthority(authority)
                 .WithCertificate(certificate)
                 .Build();
 
-            var scopes = new string[] { $"https://{tenantName}.sharepoint.com/.default" };
+            var scopes = new string[] { $"https://3scyh4.sharepoint.com/.default" };
             var authResult = await azureApp.AcquireTokenForClient(scopes).ExecuteAsync();
-            return authResult.AccessToken;
+            return authResult.AccessToken; 
         }
     }
 }

@@ -22,11 +22,9 @@ namespace sharepointecs
 
         public async void Run()
         {
-            //IFormFile file = null;
             var result = false;
-            var content = await _getPageSharepoint.MakeExtract("https://3scyh4.sharepoint.com/SitePages/Teste.aspx");
-            if (content != null) { result = await _controlDBRepository.SaveChangesAsync(content); }
-            //if (result != null) { var insertS3 = _awsServices.UploadFileAsync(file); }       
+            Task handleThing = _getPageSharepoint.MakeExtract("https://3scyh4.sharepoint.com/SitePages/Teste.aspx");
+            handleThing.Wait();
         }
     }
 }
