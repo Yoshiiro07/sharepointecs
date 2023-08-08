@@ -7,18 +7,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace sharepointecs.Services
 {
     public class FileGenerator : IFileGenerator
     {
-        public FileGenerator()
-        {
+        public FileGenerator(){}
 
-        }
-
-        FormFile MakeFile(SPModel spModel) {
+        public FormFile MakeFile(SPModel spModel) {
             try
             {
                 var location = System.IO.Path.GetDirectoryName(typeof(Program).Assembly.Location);

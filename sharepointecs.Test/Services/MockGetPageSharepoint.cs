@@ -29,9 +29,11 @@ namespace sharepointecs.Test.Services
         {
             // Arrange
             Mock<IGetPageSharepoint> mock = new Mock<IGetPageSharepoint>();
+            
             //Act
             mock.Setup(x => x.MakeExtract(It.IsAny<string>()));
 
+            //Assert
             Assert.NotNull(mock.Object);
         }
 
@@ -42,7 +44,7 @@ namespace sharepointecs.Test.Services
             Mock<GetPageSharepoint> mockGetPageSharepoint = new Mock<GetPageSharepoint>();
 
             var tenantName = _configuration.GetValue<string>("SharepointSettings:TenantName");
-            var token = await mockGetPageSharepoint.Setup(x => x.GetAccessTokenWithCertificate()).Returns(Task.FromResult());
+            var token = await mockGetPageSharepoint.Setup(x => x.GetAccessTokenWithCertificate()).Returns(Task.FromResult(mockGetPageSharepoint.Object)));
             var siteUrl = $"https://{tenantName}.sharepoint.com/";
 
             using (var context = new ClientContext(siteUrl))
