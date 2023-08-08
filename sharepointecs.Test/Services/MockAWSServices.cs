@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace sharepointecs.Test.Services
 {
-    internal class IMockControlDBRepository
+    internal class MockAWSServices
     {
     }
 }

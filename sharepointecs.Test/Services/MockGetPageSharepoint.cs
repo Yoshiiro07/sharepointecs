@@ -1,7 +1,4 @@
-﻿using sharepointecs.Models;
-using Microsoft.Identity.Client;
-using Microsoft.SharePoint.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,17 +8,19 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using sharepointecs.Services;
 using Moq;
+using sharepointecs.Services;
+using sharepointecs.Models;
+using Microsoft.Identity.Client;
+using Microsoft.SharePoint.Client;
 
 namespace sharepointecs.Test.Services
 {
     public class MockGetPageSharepoint
     {
-        private readonly Mock<IConfiguration> _configuration;
+        private readonly IConfiguration _configuration;
 
-        public MockGetPageSharepoint(Mock<IConfiguration> configuration)
-        {
+        public MockGetPageSharepoint(IConfiguration configuration){
             _configuration = configuration;
         }
 
@@ -29,27 +28,65 @@ namespace sharepointecs.Test.Services
         public void MakeExtract_Return_OK()
         {
             // Arrange
-            Moq.Mock<IMockGetPageSharepoint> mock = new Moq.Mock<IMockGetPageSharepoint>();
-
+            Mock<IGetPageSharepoint> mock = new Mock<IGetPageSharepoint>();
             //Act
             mock.Setup(x => x.MakeExtract(It.IsAny<string>()));
 
-            //Assert
             Assert.NotNull(mock.Object);
         }
 
+        [Fact]
+        private async void MakeExtractWithCertificate_OK()
+        {         
+            SPModel mockSPmodel = new SPModel();
+            Mock<GetPageSharepoint> mockGetPageSharepoint = new Mock<GetPageSharepoint>();
+
+            var tenantName = _configuration.GetValue<string>("SharepointSettings:TenantName");
+            var token = await mockGetPageSharepoint.Setup(x => x.GetAccessTokenWithCertificate()).Returns(Task.FromResult());
+            var siteUrl = $"https://{tenantName}.sharepoint.com/";
+
+            using (var context = new ClientContext(siteUrl))
+            {
+                context.ExecutingWebRequest += (s, e) =>
+                {
+                    e.WebRequestExecutor.RequestHeaders["Authorization"] =
+                        "Bearer " + token;
+                };
+
+                var web = context.Web;
+                context.Load(web);
+                context.ExecuteQuery();
+                mockSPmodel.FileLeafRef = web.Title;
+            }
+
+            Assert.NotNull(mockSPmodel);
+        }
 
         [Fact]
-        public void MakeExtract_Return_Not_OK()
+        private async void MakeExtractWithCertificate_Error()
         {
-            // Arrange
-            Moq.Mock<IMockGetPageSharepoint> mock = new Moq.Mock<IMockGetPageSharepoint>();
+            SPModel mockSPmodel = new SPModel();
+            Mock<GetPageSharepoint> mockGetPageSharepoint = new Mock<GetPageSharepoint>();
 
-            //Act
-            mock.Setup(x => x.MakeExtract(It.IsAny<string>()));
+            var tenantName = _configuration.GetValue<string>("SharepointSettings:TenantName");
+            var token = await mockGetPageSharepoint.Setup(x => x.GetAccessTokenWithCertificate()).Returns(Task.FromResult());
+            var siteUrl = $"https://{tenantName}.sharepoint.com/";
 
-            //Assert
-            Assert.Null(mock.Object);
+            using (var context = new ClientContext(siteUrl))
+            {
+                context.ExecutingWebRequest += (s, e) =>
+                {
+                    e.WebRequestExecutor.RequestHeaders["Authorization"] =
+                        "Bearer " + token;
+                };
+
+                var web = context.Web;
+                context.Load(web);
+                context.ExecuteQuery();
+                mockSPmodel.FileLeafRef = web.Title;
+            }
+
+            Assert.Null(mockSPmodel);
         }
     }
 }

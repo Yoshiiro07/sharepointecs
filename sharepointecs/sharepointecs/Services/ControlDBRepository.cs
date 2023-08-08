@@ -11,23 +11,24 @@ namespace sharepointecs.Services
 {
     public class ControlDBRepository : IControlDBRepository
     {
-        private readonly DbContext _ControlDBContext;
+        private readonly ControlDBContext _context;
 
-        public async Task<bool> SaveChangesAsync(string[] content)
+        public async Task<bool> UpdateChangesAsync(SPModel spmodel)
         {
-            ControlDBModel controlPage = new ControlDBModel();
-            controlPage.GUID = new Guid(content[1]);
-            controlPage.DataInclusao = DateTime.Now;
-            controlPage.Data_Criacao_Pagina = Convert.ToDateTime(content[2]);
-            controlPage.Data_Modificacao_Pagina = Convert.ToDateTime(content[3]);
-            
+            ControlDBModel cmodel = new ControlDBModel();
+            cmodel.DAT_ALTE_PAGI = Convert.ToDateTime(spmodel.Modified);
+            cmodel.DAT_CRIA_PAGI = Convert.ToDateTime(spmodel.Created);
+            cmodel.DAT_ULTU_LEIT = DateTime.Now;
+            cmodel.COD_IDT_SHRT = new Guid(spmodel.GUID);
+            cmodel.COD_STAT_CARG = "1";
 
-            return (await _ControlDBContext.SaveChangesAsync() >= 0);
+            _context.Update(cmodel);
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
-        public async Task<bool> CheckPageControl(string[] content)
+        public async Task<IEnumerable<ControlDBModel>> GetListControlDB()
         {
-            return false;
+            return await _context.ControlsDB.OrderBy(c => c.NOM_PAGI).ToListAsync();
         }
     }
 }

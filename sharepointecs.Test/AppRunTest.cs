@@ -1,13 +1,13 @@
-using sharepointecs.Test.Services;
+using sharepointecs.Services;
 
 namespace sharepointecs.Test
 {
     public class AppRunTest
     {
-        private readonly IMockGetPageSharepoint _getPageSharepoint;
-        private readonly IMockControlDBRepository _controlDBRepository;
+        private readonly IGetPageSharepoint _getPageSharepoint;
+        private readonly IControlDBRepository _controlDBRepository;
 
-        public AppRunTest(IMockGetPageSharepoint getPageSharepoint, IMockControlDBRepository controlDBRepository) {
+        public AppRunTest(IGetPageSharepoint getPageSharepoint, IControlDBRepository controlDBRepository) {
             _getPageSharepoint = getPageSharepoint;
             _controlDBRepository = controlDBRepository;
         }

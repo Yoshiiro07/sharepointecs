@@ -10,18 +10,20 @@ namespace sharepointecs.Models
     {
         public ControlDBModel() { }
 
-        public int ID {get;set;}
+        public int COD_TABE_CTRL {get;set;}
 
-        public Guid GUID { get; set; }
+        public Guid COD_IDT_SHRT { get; set; }
 
-        public DateTime DataInclusao { get; set; }
+        public DateTime DAT_INCU { get; set; }
 
-        public DateTime Data_Criacao_Pagina { get; set; }
+        public DateTime DAT_CRIA_PAGI { get; set; }
 
-        public DateTime Data_Modificacao_Pagina { get; set; }
+        public DateTime DAT_ALTE_PAGI { get; set; }
 
-        public string URL { get; set; }
+        public string NOM_PAGI { get; set; }
 
-        public string NomePagina { get; set; }
+        public string COD_STAT_CARG { get; set; }
+
+        public DateTime DAT_ULTU_LEIT { get; set; }
     }
 }

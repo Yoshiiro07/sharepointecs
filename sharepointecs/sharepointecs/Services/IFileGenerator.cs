@@ -1,4 +1,5 @@
-﻿using sharepointecs.Models;
+﻿using Microsoft.AspNetCore.Http.Internal;
+using sharepointecs.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace sharepointecs.Services
 {
-    public interface IGetPageSharepoint
+    public interface IFileGenerator
     {
-        Task<SPModel> MakeExtract(string requestPage);
+        FormFile MakeFile(SPModel spModel) { }
     }
 }

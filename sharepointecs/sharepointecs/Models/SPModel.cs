@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace sharepointecs.Models
 {
-    internal class SharepointPageModel
+    public class SPModel
     {
         public string FileLeafRef { get; set; }
         public string WikiField { get; set; }

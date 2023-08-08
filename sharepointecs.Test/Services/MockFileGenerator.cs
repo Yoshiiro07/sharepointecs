@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
+using sharepointecs.Services;
+using sharepointecs.Models;
+using System.IO;
 
 namespace sharepointecs.Test.Services
 {
-    interface IMockGetPageSharepoint
+    public class MockFileGenerator
     {
-        Task<string[]> MakeExtract(string requestPage);
+        public MockFileGenerator() { }
     }
 }

@@ -9,6 +9,8 @@ namespace sharepointecs.Services
 {
     public interface IControlDBRepository
     {
-        Task<bool> SaveChangesAsync(string[] content);
+        public Task<IEnumerable<ControlDBModel>> GetListControlDB();
+
+        public Task<bool> UpdateChangesAsync(SPModel content);
     }
 }

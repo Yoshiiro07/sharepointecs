@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[3.7.201.3, )"
             },
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
               "version": "[2.2.2, )"

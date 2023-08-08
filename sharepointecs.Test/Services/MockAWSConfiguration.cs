@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sharepointecs.Models
+namespace sharepointecs.Test.Services
 {
-    public class DataDTO<T>
+    public class MockAWSConfiguration
     {
-        public DataDTO() { }
-        public T Data { get; set; }
     }
 }
