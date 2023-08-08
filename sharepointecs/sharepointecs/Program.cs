@@ -21,6 +21,8 @@ namespace sharepointecs
         {
             //Set up app
             var builder = new ConfigurationBuilder();
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
             BuildConfig(builder);
             IConfiguration config = builder.Build();
 
