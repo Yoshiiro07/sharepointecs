@@ -12,36 +12,33 @@ namespace sharepointecs.Services
 {
     public class FileGenerator : IFileGenerator
     {
-        public FileGenerator(){}
-
         public FormFile MakeFile(SPModel spModel) {
             try
             {
-                var location = System.IO.Path.GetDirectoryName(typeof(Program).Assembly.Location);
+                string location = System.IO.Path.GetDirectoryName(typeof(Program).Assembly.Location) + 
+                    spModel.FileLeafRef.Remove(0, spModel.FileLeafRef.LastIndexOf("/")) + ".txt";
 
                 //Open the File
-                StreamWriter sw = new StreamWriter(location + "file.txt", true, Encoding.ASCII);
+                StreamWriter sw = new StreamWriter(location, true, Encoding.ASCII);
                 sw.WriteLine("FileLeafRef: " + spModel.FileLeafRef.ToString());
                 sw.WriteLine("GUID: " + spModel.GUID.ToString());
                 sw.WriteLine("UniqueId: " + spModel.UniqueId.ToString());
                 sw.WriteLine("LayoutWebpartsContent: " + spModel.LayoutWebpartsContent.ToString());
                 sw.WriteLine("CanvasContent1: " + spModel.CanvasContent1.ToString());
-                sw.WriteLine("ContentType: " + spModel.ContentType.ToString());
+                sw.WriteLine("WikiField: " + spModel.WikiField.ToString());
                 sw.WriteLine("Created: " + spModel.Created.ToString());
                 sw.WriteLine("Modified: " + spModel.Modified.ToString());
-                sw.WriteLine("WikiField: " + spModel.WikiField.ToString());
-
+                
                 //close the file
                 sw.Close();
 
-                var file = new FormFile(null, 0, 0, null, "");
-                string path = location + "file.txt";
-                using (var stream = File.OpenRead(path))
+                FormFile file = new FormFile(null, 0, 0, null, "");
+                using (var stream = File.OpenRead(location))
                 {
-                    file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
+                    file = new FormFile(stream, 0, stream.Length, null, location)
                     {
                         Headers = new HeaderDictionary(),
-                        ContentType = "application/pdf"
+                        ContentType = "application/text"
                     };                 
                 }
                 return file;

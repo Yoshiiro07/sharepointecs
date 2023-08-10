@@ -6,28 +6,43 @@ using System.Text;
 using System.Threading.Tasks;
 using sharepointecs.DbContexts;
 using sharepointecs.Models;
+using Microsoft.ProjectServer.Client;
+using Microsoft.Extensions.Logging;
 
 namespace sharepointecs.Services
 {
     public class ControlDBRepository : IControlDBRepository
     {
         private readonly ControlDBContext _context;
-        public async Task<bool> UpdateChangesAsync(SPModel spmodel)
+        
+        public ControlDBRepository(ControlDBContext context)
         {
-            ControlDBModel cmodel = new ControlDBModel();
-            cmodel.DAT_ALTE_PAGI = Convert.ToDateTime(spmodel.Modified);
-            cmodel.DAT_CRIA_PAGI = Convert.ToDateTime(spmodel.Created);
-            cmodel.DAT_ULTU_LEIT = DateTime.Now;
-            cmodel.COD_IDT_SHRT = new Guid(spmodel.GUID);
-            cmodel.COD_STAT_CARG = "1";
-
-            _context.Update(cmodel);
-            return (await _context.SaveChangesAsync() >= 0);
+           _context = context;
         }
 
-        public async Task<IEnumerable<ControlDBModel>> GetListControlDB()
+        public IEnumerable<TBControl> GetListControlDB()
         {
-            return await _context.ControlsDB.OrderBy(c => c.NOM_PAGI).ToListAsync();
+            return _context.tbControl.OrderBy(c => c.NOM_PAGI).Where(x => x.COD_STAT_CARG == 1).ToList();
+        }
+
+        public bool UpdateChanges(TBControl tbcontrol)
+        {
+            _context.Update(tbcontrol);
+            return (_context.SaveChanges() > 0);
+        }
+
+        public TBControl GetItemControl(SPModel spmodel)
+        {
+            TBControl tb = _context.tbControl.FirstOrDefault(x => x.COD_IDT_SHRT == spmodel.GUID);
+            if(tb != null) { return tb; } else { return null; }
+        }
+
+        public TBControl RefreshItem(SPModel spmodel, TBControl tbcontrol)
+        {
+            tbcontrol.DAT_ULTU_LEIT = DateTime.Now;
+            tbcontrol.COD_STAT_CARG = 1;
+            tbcontrol.DAT_ALTE_PAGI = Convert.ToDateTime(spmodel.Modified);
+            return tbcontrol;
         }
     }
 }

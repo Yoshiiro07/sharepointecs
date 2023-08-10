@@ -10,7 +10,7 @@ namespace sharepointecs.DbContexts
 {
     public class ControlDBContext : DbContext
     {
-        public DbSet<ControlDBModel> ControlsDB { get; set; } = null!;
+        public DbSet<TBControl> tbControl { get; set; } = null!;
 
         public ControlDBContext(DbContextOptions<ControlDBContext> options) : base(options){
 

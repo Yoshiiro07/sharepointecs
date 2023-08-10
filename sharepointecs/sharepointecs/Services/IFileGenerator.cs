@@ -10,6 +10,6 @@ namespace sharepointecs.Services
 {
     public interface IFileGenerator
     {
-        FormFile MakeFile(SPModel spModel) { }
+        FormFile MakeFile(SPModel spModel);
     }
 }

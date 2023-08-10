@@ -8,19 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using AutoMapper;
 
 namespace sharepointecs
 {
     public class AppRun
     {
-        private readonly IGetPageSharepoint _getPageSharepoint;
+        private readonly ISharepointServices _getPageSharepoint;
         private readonly IControlDBRepository _controlDBRepository;
         private readonly IConfiguration _configuration;
         private readonly IFileGenerator _fileGenerator;
-        private readonly IMapper _mapper;
-
-        public AppRun(IGetPageSharepoint getPageSharepoint, IControlDBRepository controlDBRepository, IFileGenerator fileGenerator, IConfiguration configuration)
+        
+        public AppRun(ISharepointServices getPageSharepoint, IControlDBRepository controlDBRepository, IFileGenerator fileGenerator, IConfiguration configuration)
         {
             _getPageSharepoint = getPageSharepoint;
             _controlDBRepository = controlDBRepository;
@@ -30,19 +28,42 @@ namespace sharepointecs
 
         public void Run()
         {
-            //Check Pages Status
-            var pagesFromDB = _controlDBRepository.GetListControlDB();
-            IEnumerable<ControlDBModel> pages = _mapper.Map<IEnumerable<ControlDBModel>>(pagesFromDB);
-
-            foreach (ControlDBModel ctmodel in pages) {
-                if (ctmodel.DAT_ALTE_PAGI.Day != DateTime.Now.Day)
+            try
+            {
+                //Check Pages Status
+                var pagesFromDB = _controlDBRepository.GetListControlDB();
+                if (pagesFromDB.Count() > 0)
                 {
-                    var content = _getPageSharepoint.MakeExtract(ctmodel.NOM_PAGI);
-                    if(content != null) { _controlDBRepository.UpdateChangesAsync(_mapper.Map<SPModel>(content)); }
-                    var file = _fileGenerator.MakeFile(_mapper.Map<SPModel>(content));
-                    
+                    var getTokenSp = _getPageSharepoint.GetAccessToken();
+                    foreach (TBControl ctmodel in pagesFromDB)
+                    {
+                        var content = _getPageSharepoint.MakeExtract(getTokenSp, ctmodel.NOM_PAGI);
+                        if (content != null)
+                        {
+                            DateTime dtModif = Convert.ToDateTime(content.Modified);
+                            if ((ctmodel.DAT_ALTE_PAGI != dtModif))
+                            {
+
+                                TBControl tbc = _controlDBRepository.GetItemControl(content);
+                                TBControl tbUpdated = _controlDBRepository.RefreshItem(content, tbc);
+                                _controlDBRepository.UpdateChanges(tbUpdated);
+                                var file = _fileGenerator.MakeFile(content);
+                            }
+                            else
+                            {
+                                TBControl tbc = _controlDBRepository.GetItemControl(content);
+                                _controlDBRepository.UpdateChanges(tbc);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return;                    
                 }
             }
+
+            catch(Exception ex){}
         }
     }
 }

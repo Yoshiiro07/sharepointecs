@@ -28,7 +28,7 @@ namespace sharepointecs.Test.Services
         public void MakeExtract_Return_OK()
         {
             // Arrange
-            Mock<IGetPageSharepoint> mock = new Mock<IGetPageSharepoint>();
+            Mock<ISharepointServices> mock = new Mock<ISharepointServices>();
             
             //Act
             mock.Setup(x => x.MakeExtract(It.IsAny<string>()));

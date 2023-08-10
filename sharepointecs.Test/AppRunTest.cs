@@ -4,10 +4,10 @@ namespace sharepointecs.Test
 {
     public class AppRunTest
     {
-        private readonly IGetPageSharepoint _getPageSharepoint;
+        private readonly ISharepointServices _getPageSharepoint;
         private readonly IControlDBRepository _controlDBRepository;
 
-        public AppRunTest(IGetPageSharepoint getPageSharepoint, IControlDBRepository controlDBRepository) {
+        public AppRunTest(ISharepointServices getPageSharepoint, IControlDBRepository controlDBRepository) {
             _getPageSharepoint = getPageSharepoint;
             _controlDBRepository = controlDBRepository;
         }

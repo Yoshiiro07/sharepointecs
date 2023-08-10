@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using sharepointecs.Services;
 using Microsoft.SharePoint.Client;
@@ -12,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using static System.Formats.Asn1.AsnWriter;
 using sharepointecs.DbContexts;
 using System.Collections;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Serilog;
 
 namespace sharepointecs
 {
@@ -21,16 +23,21 @@ namespace sharepointecs
         {
             //Set up app
             var builder = new ConfigurationBuilder();
-            builder.Logging.ClearProviders();
-            builder.Logging.AddConsole();
             BuildConfig(builder);
             IConfiguration config = builder.Build();
+
+            Log.Logger = new LoggerConfiguration()
+                 .WriteTo.Console()
+                 .CreateLogger();
 
             using IHost host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
+                    var cns = config.GetValue<string>("ConnectionStrings:ControlDBConnectionString");
+                    services.AddDbContext<ControlDBContext>(options => options.UseSqlServer(cns));
                     services.AddTransient<IControlDBRepository, ControlDBRepository>();
-                    services.AddTransient<IGetPageSharepoint, GetPageSharepoint>();
+                    services.AddTransient<ISharepointServices, SharepointServices>();
+                    services.AddTransient<IFileGenerator, FileGenerator>();
                     services.AddSingleton<AppRun>();
                 }).Build();
 
