@@ -13,5 +13,30 @@ namespace sharepointecs.Test.Services
     public class MockFileGenerator
     {
         public MockFileGenerator() { }
+
+        [Fact]
+        public void MakeFile_OK()
+        {
+            //Arrange
+            Mock<IFileGenerator> fileGenerator = new Mock<IFileGenerator>();
+
+            //Act
+            var file = fileGenerator.Setup(x => x.MakeFile(It.IsAny<SPModel>()));
+
+            //Assert
+            Assert.NotNull(file);
+        }
+
+        [Fact] public void MakeFile_Fail()
+        {
+            //Arrange
+            Mock<IFileGenerator> fileGenerator = new Mock<IFileGenerator>();
+
+            //Act
+            var file = fileGenerator.Setup(x => x.MakeFile(It.IsAny<string>);
+
+            //Assert
+            Assert.NotNull(file);
+        }
     }
 }
