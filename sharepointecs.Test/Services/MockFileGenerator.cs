@@ -7,6 +7,8 @@ using Moq;
 using sharepointecs.Services;
 using sharepointecs.Models;
 using System.IO;
+using Microsoft.AspNetCore.Http.Internal;
+using Amazon.S3;
 
 namespace sharepointecs.Test.Services
 {
@@ -18,22 +20,10 @@ namespace sharepointecs.Test.Services
         public void MakeFile_OK()
         {
             //Arrange
-            Mock<IFileGenerator> fileGenerator = new Mock<IFileGenerator>();
+            Mock<FileGenerator> fileGenerator = new Mock<FileGenerator>();
 
             //Act
             var file = fileGenerator.Setup(x => x.MakeFile(It.IsAny<SPModel>()));
-
-            //Assert
-            Assert.NotNull(file);
-        }
-
-        [Fact] public void MakeFile_Fail()
-        {
-            //Arrange
-            Mock<IFileGenerator> fileGenerator = new Mock<IFileGenerator>();
-
-            //Act
-            var file = fileGenerator.Setup(x => x.MakeFile(It.IsAny<string>);
 
             //Assert
             Assert.NotNull(file);

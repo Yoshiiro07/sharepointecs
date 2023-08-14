@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using Amazon.S3;
+using sharepointecs.Services;
+using Microsoft.AspNetCore.Http.Internal;
 
 namespace sharepointecs.Test.Services
 {
     public class MockAWSServices
     {
-
+        
     }
 }
