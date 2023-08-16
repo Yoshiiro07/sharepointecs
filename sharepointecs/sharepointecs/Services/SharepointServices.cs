@@ -23,56 +23,66 @@ namespace sharepointecs.Services
             _configuration = configuration;
         }
 
-        public SPModel MakeExtract(string token, string requestPage)
+        public SPModel ExtractPage(string token, string requestPage)
         {
-            SPModel spmodel = new SPModel();
-
-            var tenantName = _configuration.GetValue<string>("SharepointSettings:TenantName");
-            var siteUrl = $"https://{tenantName}.sharepoint.com/";
-            var subpage = requestPage.Remove(0,requestPage.LastIndexOf("/"));
-
-            using (var context = new ClientContext(siteUrl))
+            try
             {
-                context.ExecutingWebRequest += (s, e) =>
-                {
-                    e.WebRequestExecutor.RequestHeaders["Authorization"] =
-                        "Bearer " + token;
-                };
+                SPModel spmodel = new SPModel();
 
-                var listTitle = "Site Pages";
-                var list = context.Web.Lists.GetByTitle(listTitle);
-                var items = list.GetItems(CamlQuery.CreateAllItemsQuery());
-                context.Load(items);
+                var spcredentials = Environment.GetEnvironmentVariable("SpCredentials").Split("|");
+                var tenantName = spcredentials[1];
+                var siteUrl = $"https://{tenantName}.sharepoint.com/";
+                var subpage = requestPage.Remove(0, requestPage.LastIndexOf("/"));
 
-                context.ExecuteQuery();
-                foreach (var item in items)
+                using (var context = new ClientContext(siteUrl))
                 {
-                    string itemName = item["FileRef"].ToString();
-                    if (itemName.Contains(subpage))
+                    context.ExecutingWebRequest += (s, e) =>
                     {
-                        spmodel.Title = Convert.ToString(item["Title"]);
-                        spmodel.GUID = Convert.ToString(item["GUID"]);
-                        spmodel.FileLeafRef = Convert.ToString(item["FileRef"]);
-                        spmodel.WikiField = Convert.ToString(item["WikiField"]);
-                        spmodel.CanvasContent1 = Convert.ToString(item["CanvasContent1"]);
-                        spmodel.LayoutWebpartsContent = Convert.ToString(item["LayoutWebpartsContent"]);
-                        spmodel.Modified = Convert.ToString(item["Modified"]);
-                        spmodel.Created = Convert.ToString(item["Created"]);
-                        spmodel.UniqueId = Convert.ToString(item["UniqueId"]);
+                        e.WebRequestExecutor.RequestHeaders["Authorization"] =
+                            "Bearer " + token;
+                    };
+
+                    var listTitle = "Site Pages";
+                    var list = context.Web.Lists.GetByTitle(listTitle);
+                    var items = list.GetItems(CamlQuery.CreateAllItemsQuery());
+                    context.Load(items);
+
+                    context.ExecuteQuery();
+                    foreach (var item in items)
+                    {
+                        string itemName = item["FileRef"].ToString();
+                        if (itemName.Contains(subpage))
+                        {
+                            spmodel.Title = Convert.ToString(item["Title"]);
+                            spmodel.GUID = Convert.ToString(item["GUID"]);
+                            spmodel.FileLeafRef = Convert.ToString(item["FileRef"]);
+                            spmodel.WikiField = Convert.ToString(item["WikiField"]);
+                            spmodel.CanvasContent1 = Convert.ToString(item["CanvasContent1"]);
+                            spmodel.LayoutWebpartsContent = Convert.ToString(item["LayoutWebpartsContent"]);
+                            spmodel.Modified = Convert.ToString(item["Modified"]);
+                            spmodel.Created = Convert.ToString(item["Created"]);
+                            spmodel.UniqueId = Convert.ToString(item["UniqueId"]);
+                        }
                     }
                 }
+
+                return spmodel;
             }
 
-            return spmodel;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         public string GetAccessToken()
         {
             try
             {
-                var tenantName = _configuration.GetValue<string>("SharepointSettings:TenantName");
-                var clientId = _configuration.GetValue<string>("SharepointSettings:ClientID");
-                var certName = _configuration.GetValue<string>("SharepointSettings:CertificateName");
+                var spcredentials = Environment.GetEnvironmentVariable("SpCredentials").Split("|");
+                var tenantName = spcredentials[1];
+                var clientId = spcredentials[2];
+                var certName = spcredentials[3];
 
                 List<X509Certificate2> lstcertificates = new List<X509Certificate2>();
                 X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);

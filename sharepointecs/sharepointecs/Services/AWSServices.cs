@@ -14,9 +14,11 @@ namespace sharepointecs.Services
     {
         private readonly string _bucketName;
         private readonly IAmazonS3 _awsS3Client;
+        private readonly ILogApplication _logApp;
 
-        public AWSServices(string awsAccessKeyId, string awsSecretAccessKey, string awsSessionToken, string region, string bucketName)
+        public AWSServices(string awsAccessKeyId, string awsSecretAccessKey, string awsSessionToken, string region, string bucketName, ILogApplication _ILogApplication)
         {
+            _logApp = _ILogApplication;
             _bucketName = bucketName;
             _awsS3Client = new AmazonS3Client(awsAccessKeyId, awsSecretAccessKey, awsSessionToken, RegionEndpoint.GetBySystemName(region));
         }
@@ -44,9 +46,10 @@ namespace sharepointecs.Services
                     return true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                _logApp.Log("Erro ao subir no Bucket S3:" + ex.Message);
+                return false;
             }
         }
     }

@@ -12,7 +12,7 @@ using static System.Formats.Asn1.AsnWriter;
 using sharepointecs.DbContexts;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
+using Pomelo.EntityFrameworkCore.MySql;
 using Serilog;
 
 namespace sharepointecs
@@ -33,8 +33,7 @@ namespace sharepointecs
             using IHost host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    var cns = config.GetValue<string>("ConnectionStrings:ControlDBConnectionString");
-                    services.AddDbContext<ControlDBContext>(options => options.UseSqlServer(cns));
+                    services.AddDbContext<ControlDBContext>();
                     services.AddTransient<IControlDBRepository, ControlDBRepository>();
                     services.AddTransient<ISharepointServices, SharepointServices>();
                     services.AddTransient<IFileGenerator, FileGenerator>();

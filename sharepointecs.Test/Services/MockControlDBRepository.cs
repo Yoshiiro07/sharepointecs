@@ -10,6 +10,5 @@ namespace sharepointecs.Test.Services
 {
     public class MockControlDBRepository
     {
-        private readonly ControlDBContext _context;
     }
 }

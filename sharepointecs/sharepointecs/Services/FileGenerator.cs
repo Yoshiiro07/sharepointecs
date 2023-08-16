@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.SharePoint.Client;
 using sharepointecs.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,14 @@ namespace sharepointecs.Services
 {
     public class FileGenerator : IFileGenerator
     {
-        public FormFile MakeFile(SPModel spModel) {
+        private readonly ILogApplication _logApp;
+
+        public FileGenerator(ILogApplication _ILogApplication)
+        {
+            _logApp = _ILogApplication;
+        }
+
+        public FormFile MakeAWSFile(SPModel spModel) {
             try
             {
                 string location = System.IO.Path.GetDirectoryName(typeof(Program).Assembly.Location) + 
@@ -33,19 +41,20 @@ namespace sharepointecs.Services
                 sw.Close();
 
                 FormFile file = new FormFile(null, 0, 0, null, "");
-                using (var stream = File.OpenRead(location))
+                using (var stream = System.IO.File.OpenRead(location))
                 {
                     file = new FormFile(stream, 0, stream.Length, null, location)
                     {
                         Headers = new HeaderDictionary(),
                         ContentType = "application/text"
-                    };                 
+                    };
                 }
                 return file;
             }
             catch (Exception ex)
             {
-                return new FormFile(null, 0, 0, null, "");
+                _logApp.Log("Não foi possível gerar File AWS: " + ex.Message);
+                return null;
             }      
         }
     }

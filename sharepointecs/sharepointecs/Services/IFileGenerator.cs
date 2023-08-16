@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Internal;
+﻿using Amazon.S3;
+using Microsoft.AspNetCore.Http.Internal;
 using sharepointecs.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace sharepointecs.Services
 {
     public interface IFileGenerator
     {
-        FormFile MakeFile(SPModel spModel);
+        FormFile MakeAWSFile(SPModel spModel);
     }
 }

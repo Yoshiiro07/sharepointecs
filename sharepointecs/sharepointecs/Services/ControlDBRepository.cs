@@ -14,10 +14,10 @@ namespace sharepointecs.Services
     public class ControlDBRepository : IControlDBRepository
     {
         private readonly ControlDBContext _context;
-        
+
         public ControlDBRepository(ControlDBContext context)
         {
-           _context = context;
+            _context = context;
         }
 
         public IEnumerable<TBControl> GetListControlDB()

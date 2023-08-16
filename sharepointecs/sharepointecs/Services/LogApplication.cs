@@ -11,9 +11,11 @@ namespace sharepointecs.Services
     {
         public void Log(string message)
         {
-            //Log.Logger = new LoggerConfiguration()
-            //     .WriteTo.Console()
-            //     .CreateLogger();
+            Serilog.Log.Logger = new LoggerConfiguration()
+                 .WriteTo.Console()
+                 .CreateLogger();
+
+            Serilog.Log.Information(message);
         }
     }
 }

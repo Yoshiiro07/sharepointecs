@@ -10,6 +10,7 @@ using Moq;
 using Amazon.S3;
 using sharepointecs.Services;
 using Microsoft.AspNetCore.Http.Internal;
+using Amazon;
 
 namespace sharepointecs.Test.Services
 {
