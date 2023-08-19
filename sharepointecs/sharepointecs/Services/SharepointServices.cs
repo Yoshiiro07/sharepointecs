@@ -42,28 +42,14 @@ namespace sharepointecs.Services
                             "Bearer " + token;
                     };
 
-                    var listTitle = "Site Pages";
-                    var list = context.Web.Lists.GetByTitle(listTitle);
-                    var items = list.GetItems(CamlQuery.CreateAllItemsQuery());
-                    context.Load(items);
-
+                    Web web = context.Web;
+                    context.Load(web, wb => wb.ServerRelativeUrl);
                     context.ExecuteQuery();
-                    foreach (var item in items)
-                    {
-                        string itemName = item["FileRef"].ToString();
-                        if (itemName.Contains(subpage))
-                        {
-                            spmodel.Title = Convert.ToString(item["Title"]);
-                            spmodel.GUID = Convert.ToString(item["GUID"]);
-                            spmodel.FileLeafRef = Convert.ToString(item["FileRef"]);
-                            spmodel.WikiField = Convert.ToString(item["WikiField"]);
-                            spmodel.CanvasContent1 = Convert.ToString(item["CanvasContent1"]);
-                            spmodel.LayoutWebpartsContent = Convert.ToString(item["LayoutWebpartsContent"]);
-                            spmodel.Modified = Convert.ToString(item["Modified"]);
-                            spmodel.Created = Convert.ToString(item["Created"]);
-                            spmodel.UniqueId = Convert.ToString(item["UniqueId"]);
-                        }
-                    }
+
+                    context.Web.Lists.
+
+                    web.GetList()
+
                 }
 
                 return spmodel;
