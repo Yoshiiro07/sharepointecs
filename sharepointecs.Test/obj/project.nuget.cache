@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "M0SNJXI21f9xEzW750QDnOfD26PnMK1krQBIITWLBcVpkSGMZFaWz3Avdr3X/toIHBj1nOjR0SmDPhIS2P/hTg==",
+  "dgSpecHash": "prt2bQH+YCfqcY2nYYqn29p1SozG5Zp5pMJup3rYnst2PuyIqKemCDhXl3kf0lCRCgHDYXp5D1Hd/wT0rwV0Bw==",
   "success": true,
-  "projectFilePath": "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj",
+  "projectFilePath": "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Gui\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
-    "C:\\Users\\Gui\\.nuget\\packages\\awssdk.core\\3.7.200.5\\awssdk.core.3.7.200.5.nupkg.sha512",
+    "C:\\Users\\Gui\\.nuget\\packages\\awssdk.certificatemanager\\3.7.200.33\\awssdk.certificatemanager.3.7.200.33.nupkg.sha512",
+    "C:\\Users\\Gui\\.nuget\\packages\\awssdk.core\\3.7.202.2\\awssdk.core.3.7.202.2.nupkg.sha512",
     "C:\\Users\\Gui\\.nuget\\packages\\awssdk.s3\\3.7.201.3\\awssdk.s3.3.7.201.3.nupkg.sha512",
+    "C:\\Users\\Gui\\.nuget\\packages\\awssdk.secretsmanager\\3.7.201.18\\awssdk.secretsmanager.3.7.201.18.nupkg.sha512",
     "C:\\Users\\Gui\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\Gui\\.nuget\\packages\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",
     "C:\\Users\\Gui\\.nuget\\packages\\microsoft.aspnetcore.http\\2.2.2\\microsoft.aspnetcore.http.2.2.2.nupkg.sha512",

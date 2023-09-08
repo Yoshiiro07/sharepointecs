@@ -13,6 +13,13 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
+using Amazon.CertificateManager;
+using Amazon.SecretsManager;
+using Amazon.SecretsManager.Model;
+using System.Security.Cryptography;
+
+
+
 namespace sharepointecs.Services
 {
     public class SharepointServices : ISharepointServices
@@ -42,14 +49,6 @@ namespace sharepointecs.Services
                             "Bearer " + token;
                     };
 
-                    Web web = context.Web;
-                    context.Load(web, wb => wb.ServerRelativeUrl);
-                    context.ExecuteQuery();
-
-                    context.Web.Lists.
-
-                    web.GetList()
-
                 }
 
                 return spmodel;
@@ -65,27 +64,49 @@ namespace sharepointecs.Services
         {
             try
             {
-                var spcredentials = Environment.GetEnvironmentVariable("SpCredentials").Split("|");
-                var tenantName = spcredentials[1];
-                var clientId = spcredentials[2];
-                var certName = spcredentials[3];
+                //var spcredentials = Environment.GetEnvironmentVariable("SpCredentials").Split("|");
+                var certificateName = _configuration.GetValue<string>("SharepointSettings:CertificateName");
+                var clientID = _configuration.GetValue<string>("SharepointSettings:ClientID");
+                var tenantID = _configuration.GetValue<string>("SharepointSettings:TenantID");
+                var tenantName = _configuration.GetValue<string>("SharepointSettings:TenantName");
 
-                List<X509Certificate2> lstcertificates = new List<X509Certificate2>();
-                X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
-                store.Open(OpenFlags.OpenExistingOnly);
+                //Path
+                string certpath = @"C:\certs\cert.pfx";
+                string certkey = @"C:\certs\cert.key";
 
-                foreach (X509Certificate2 foundcert in store.Certificates)
-                {
-                    if (foundcert.Issuer.Contains(certName))
-                    {
-                        lstcertificates.Add(foundcert);
-                        break;
-                    }
-                }
+                // Save the certificate and private key content to files
+                string crt = System.IO.File.ReadAllText(@"C:\certs\cert.crt");
+                string key = System.IO.File.ReadAllText(@"C:\certs\cert.key");
 
-                var certificate = lstcertificates.FirstOrDefault();
+                var certENV = Environment.GetEnvironmentVariable("certificate");
+                var keyENV = Environment.GetEnvironmentVariable("key");
+                byte[] certbyte = ReadFile(certpath);
+                byte[] keybyte = Convert.FromBase64String(keyENV);
+
+                X509Certificate2 certificate = new X509Certificate2(certbyte);
+
+                byte[] privateKeyBytes = Convert.FromBase64String(keyENV);
+                var privateKey = RSA.Create();
+                privateKey.ImportRSAPrivateKey(new ReadOnlySpan<byte>(privateKeyBytes), out _);
+                var certWithPrivateKey = certificate.CopyWithPrivateKey(privateKey);
+
+
+                //List<X509Certificate2> lstcertificates = new List<X509Certificate2>();
+                //X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
+                //store.Open(OpenFlags.OpenExistingOnly);
+
+                //foreach (X509Certificate2 foundcert in store.Certificates)
+                //{
+                //    if (foundcert.Issuer.Contains(certificateName))
+                //    {
+                //        lstcertificates.Add(foundcert);
+                //        break;
+                //    }
+                //}
+
+                //var certfromstore = lstcertificates.FirstOrDefault();
                 var authority = $"https://login.microsoftonline.com/{tenantName}.onmicrosoft.com/";
-                var azureApp = ConfidentialClientApplicationBuilder.Create(clientId)
+                var azureApp = ConfidentialClientApplicationBuilder.Create(clientID)
                     .WithAuthority(authority)
                     .WithCertificate(certificate)
                     .Build();
@@ -98,6 +119,16 @@ namespace sharepointecs.Services
             {
                 return "Não foi possível gerar token";
             }
+        }
+
+        internal static byte[] ReadFile(string fileName)
+        {
+            FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            int size = (int)f.Length;
+            byte[] data = new byte[size];
+            size = f.Read(data, 0, size);
+            f.Close();
+            return data;
         }
     }
 }

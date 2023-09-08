@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj": {}
+    "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj": {}
   },
   "projects": {
-    "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj": {
+    "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj",
+        "projectUniqueName": "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj",
         "projectName": "sharepointecs.Test",
-        "projectPath": "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj",
+        "projectPath": "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs.Test\\sharepointecs.Test.csproj",
         "packagesPath": "C:\\Users\\Gui\\.nuget\\packages\\",
-        "outputPath": "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs.Test\\obj\\",
+        "outputPath": "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs.Test\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj": {
-                "projectPath": "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj"
+              "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj": {
+                "projectPath": "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj"
               }
             }
           }
@@ -90,18 +90,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj": {
+    "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj",
+        "projectUniqueName": "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj",
         "projectName": "sharepointecs",
-        "projectPath": "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj",
+        "projectPath": "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs\\sharepointecs\\sharepointecs.csproj",
         "packagesPath": "C:\\Users\\Gui\\.nuget\\packages\\",
-        "outputPath": "D:\\Gui\\Projetos\\sharepointecs\\sharepointecs\\sharepointecs\\obj\\",
+        "outputPath": "C:\\Users\\Gui\\Desktop\\Gui\\projetos\\sharepoint\\sharepointecs\\sharepointecs\\sharepointecs\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -135,9 +135,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AWSSDK.CertificateManager": {
+              "target": "Package",
+              "version": "[3.7.200.33, )"
+            },
             "AWSSDK.S3": {
               "target": "Package",
               "version": "[3.7.201.3, )"
+            },
+            "AWSSDK.SecretsManager": {
+              "target": "Package",
+              "version": "[3.7.201.18, )"
             },
             "AutoMapper": {
               "target": "Package",
@@ -216,7 +224,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

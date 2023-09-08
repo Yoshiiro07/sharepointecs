@@ -34,9 +34,10 @@ namespace sharepointecs
                 .ConfigureServices((context, services) =>
                 {
                     services.AddDbContext<ControlDBContext>();
-                    services.AddTransient<IControlDBRepository, ControlDBRepository>();
+                    //services.AddTransient<IControlDBRepository, ControlDBRepository>();
                     services.AddTransient<ISharepointServices, SharepointServices>();
                     services.AddTransient<IFileGenerator, FileGenerator>();
+                    services.AddTransient<ILogApplication, LogApplication>();
                     services.AddSingleton<AppRun>();
                 }).Build();
 

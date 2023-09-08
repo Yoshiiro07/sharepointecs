@@ -8,7 +8,9 @@
     ".NETCoreApp,Version=v6.0": {
       "sharepointecs/1.0.0": {
         "dependencies": {
+          "AWSSDK.CertificateManager": "3.7.200.33",
           "AWSSDK.S3": "3.7.201.3",
+          "AWSSDK.SecretsManager": "3.7.201.18",
           "AutoMapper": "12.0.1",
           "Microsoft.AspNetCore.Http": "2.2.2",
           "Microsoft.AspNetCore.Http.Features": "5.0.17",
@@ -40,22 +42,44 @@
           }
         }
       },
-      "AWSSDK.Core/3.7.200.5": {
+      "AWSSDK.CertificateManager/3.7.200.33": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.202.2"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.CertificateManager.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.200.33"
+          }
+        }
+      },
+      "AWSSDK.Core/3.7.202.2": {
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.Core.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.7.200.5"
+            "fileVersion": "3.7.202.2"
           }
         }
       },
       "AWSSDK.S3/3.7.201.3": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.200.5"
+          "AWSSDK.Core": "3.7.202.2"
         },
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.S3.dll": {
             "assemblyVersion": "3.3.0.0",
             "fileVersion": "3.7.201.3"
+          }
+        }
+      },
+      "AWSSDK.SecretsManager/3.7.201.18": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.202.2"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.SecretsManager.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.201.18"
           }
         }
       },
@@ -831,12 +855,19 @@
       "path": "automapper/12.0.1",
       "hashPath": "automapper.12.0.1.nupkg.sha512"
     },
-    "AWSSDK.Core/3.7.200.5": {
+    "AWSSDK.CertificateManager/3.7.200.33": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-LuNBHgs8f5VBgHxHSQelFHWrIDnEkWgMrTunVvHN7ONO9fEIwzTwspXUQGLmEk/OiMSYt36ug0IQJOJ8oGwzJA==",
-      "path": "awssdk.core/3.7.200.5",
-      "hashPath": "awssdk.core.3.7.200.5.nupkg.sha512"
+      "sha512": "sha512-qIhOH0Kpccsh4lGmzsV2gr5xjroSygb/bPObStcn1VhYZXENC9O/ElVEK2EgzViV+DbQNSMZTsHLO/EybwmMag==",
+      "path": "awssdk.certificatemanager/3.7.200.33",
+      "hashPath": "awssdk.certificatemanager.3.7.200.33.nupkg.sha512"
+    },
+    "AWSSDK.Core/3.7.202.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LtfHJniVW3Z74oQRqup6T3WjqNGjIrxtz8WAd0jlxJmOZHOXw4x2cQ+QZVTouzQ0H/2yAEJduc6CO4f8XPgrmg==",
+      "path": "awssdk.core/3.7.202.2",
+      "hashPath": "awssdk.core.3.7.202.2.nupkg.sha512"
     },
     "AWSSDK.S3/3.7.201.3": {
       "type": "package",
@@ -844,6 +875,13 @@
       "sha512": "sha512-kSdmG2rPirww+dlR2vaMm6Nk7AlGZGQlIq2qr2iUenDW2kwk8foRkFG63ApAtw3KVIbsypx+JPjrzSsmA+wzuw==",
       "path": "awssdk.s3/3.7.201.3",
       "hashPath": "awssdk.s3.3.7.201.3.nupkg.sha512"
+    },
+    "AWSSDK.SecretsManager/3.7.201.18": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kiJuCGu9R5XE3j13F5gFfzXAZ7sfun/fTdqFRvKza3a38ZI8A++UeFkIIL3dkjk4w38Jf+tFeFiE4cX27FUxGQ==",
+      "path": "awssdk.secretsmanager/3.7.201.18",
+      "hashPath": "awssdk.secretsmanager.3.7.201.18.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Http/2.2.2": {
       "type": "package",
