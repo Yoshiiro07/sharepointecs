@@ -17,8 +17,12 @@ using Amazon.CertificateManager;
 using Amazon.SecretsManager;
 using Amazon.SecretsManager.Model;
 using System.Security.Cryptography;
-
-
+using System.IO.Pipelines;
+using Amazon.CertificateManager.Model;
+using Amazon.Runtime;
+using Amazon;
+using static System.Net.Mime.MediaTypeNames;
+using System.Collections;
 
 namespace sharepointecs.Services
 {
@@ -26,8 +30,33 @@ namespace sharepointecs.Services
     {
         private readonly IConfiguration _configuration;
 
-        public SharepointServices(IConfiguration configuration) { 
+        private static readonly RegionEndpoint ACMRegion = RegionEndpoint.SAEast1;
+        
+        public SharepointServices(IConfiguration configuration)
+        {
             _configuration = configuration;
+        }
+
+        public async Task<string> GetAccessToken()
+        {
+            var _client = new Amazon.CertificateManager.AmazonCertificateManagerClient(ACMRegion);
+
+            string pass = "teste";
+
+            byte[] byteArray = Encoding.ASCII.GetBytes(pass);
+            MemoryStream stream = new MemoryStream(byteArray);
+
+            var request = new ExportCertificateRequest();
+            request.CertificateArn = "";
+            request.Passphrase = stream;
+
+            var response = await _client.ExportCertificateAsync(request);
+
+            X509Certificate2 certificate = new X509Certificate2(response.Certificate, response.PrivateKey);
+
+            var teste = "";
+
+            return teste;
         }
 
         public SPModel ExtractPage(string token, string requestPage)
@@ -54,13 +83,13 @@ namespace sharepointecs.Services
                 return spmodel;
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
         }
 
-        public string GetAccessToken()
+        public string GetTokenFromLocal()
         {
             try
             {

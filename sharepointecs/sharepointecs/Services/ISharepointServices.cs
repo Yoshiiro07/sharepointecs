@@ -9,7 +9,8 @@ namespace sharepointecs.Services
 {
     public interface ISharepointServices
     {
-        string GetAccessToken();
+        string GetTokenFromLocal();
+        Task<string> GetAccessToken();
         SPModel ExtractPage(string token, string requestPage);
     }
 }
