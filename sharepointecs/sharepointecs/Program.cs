@@ -9,11 +9,11 @@ using sharepointecs.Services;
 using Microsoft.SharePoint.Client;
 using Microsoft.Extensions.Configuration;
 using static System.Formats.Asn1.AsnWriter;
-using sharepointecs.DbContexts;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
 using Serilog;
+using sharepointecs.DbContexts;
 
 namespace sharepointecs
 {
@@ -33,8 +33,11 @@ namespace sharepointecs
             using IHost host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddDbContext<ControlDBContext>();
-                    //services.AddTransient<IControlDBRepository, ControlDBRepository>();
+                    var serverVersion = new MySqlServerVersion(new Version(5, 6));
+                    services.AddDbContext<ControlDBContext>(dbContextOptions => dbContextOptions.
+                    UseMySql("server=cityserver.mysql.uhserver.com;user=citymaster;password=City@key90;database=cityserver", serverVersion));
+
+                    services.AddScoped<IDBRepository, DBRepository>();
                     services.AddTransient<ISharepointServices, SharepointServices>();
                     services.AddTransient<IFileGenerator, FileGenerator>();
                     services.AddTransient<ILogApplication, LogApplication>();

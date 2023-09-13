@@ -1,5 +1,5 @@
-﻿using sharepointecs.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using sharepointecs.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +10,12 @@ namespace sharepointecs.DbContexts
 {
     public class ControlDBContext : DbContext
     {
-        public DbSet<TBControl> tbControl { get; set; } = null!;
+        public DbSet<Reports> Reports { get; set; } = null!;
 
-        public ControlDBContext(DbContextOptions<ControlDBContext> options) : base(options){
+        public ControlDBContext(DbContextOptions<ControlDBContext> options)
+            : base(options)
+        {
 
         }
-
     }
 }

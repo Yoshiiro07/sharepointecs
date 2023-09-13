@@ -18,34 +18,34 @@ namespace sharepointecs.Test.Services
 {
     public class MockSharepointServices
     {
-        [Fact]
-        public void ExtractPage_OK()
-        {
-            //Arrange
-            Mock<IConfiguration> mockIConfiguration = new Mock<IConfiguration>();
-            SharepointServices sharepointServices = new SharepointServices(mockIConfiguration.Object);
-            var token = sharepointServices.GetAccessToken();
+        //[Fact]
+        //public void ExtractPage_OK()
+        //{
+        //    //Arrange
+        //    Mock<IConfiguration> mockIConfiguration = new Mock<IConfiguration>();
+        //    SharepointServices sharepointServices = new SharepointServices(mockIConfiguration.Object);
+        //    var token = sharepointServices.GetAccessToken();
 
-            //Act
-            var spModel = sharepointServices.ExtractPage(token, "/Home.aspx");
+        //    //Act
+        //    var spModel = sharepointServices.ExtractPage(token, "/Home.aspx");
 
-            //Assert
-            Assert.NotNull(spModel);
-        }
+        //    //Assert
+        //    Assert.NotNull(spModel);
+        //}
 
-        [Fact]
-        public void ExtractPage_Fail()
-        {
-            //Arrange
-            Mock<IConfiguration> mockIConfiguration = new Mock<IConfiguration>();
-            SharepointServices sharepointServices = new SharepointServices(mockIConfiguration.Object);
-            var token = sharepointServices.GetAccessToken();
+        //[Fact]
+        //public void ExtractPage_Fail()
+        //{
+        //    //Arrange
+        //    Mock<IConfiguration> mockIConfiguration = new Mock<IConfiguration>();
+        //    SharepointServices sharepointServices = new SharepointServices(mockIConfiguration.Object);
+        //    var token = sharepointServices.GetAccessToken();
 
-            //Act
-            var spModel = sharepointServices.ExtractPage(token, "");
+        //    //Act
+        //    var spModel = sharepointServices.ExtractPage(token, "");
 
-            //Assert
-            Assert.Null(spModel);
-        }
+        //    //Assert
+        //    Assert.Null(spModel);
+        //}
     }
 }

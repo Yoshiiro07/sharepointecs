@@ -8,21 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Pomelo.EntityFrameworkCore.MySql;
 
 namespace sharepointecs
 {
     public class AppRun
     {
         private readonly ISharepointServices _sharepointService;
-        //private readonly IControlDBRepository _controlDBRepository;
         private readonly IConfiguration _configuration;
         private readonly IFileGenerator _fileGenerator;
         private readonly ILogApplication _logApp;
-        
-        public AppRun(ISharepointServices sharepointService,  IFileGenerator fileGenerator, IConfiguration configuration, ILogApplication logApp)
+        private readonly IDBRepository _DBRepository;
+
+        public AppRun(ISharepointServices sharepointService,  IFileGenerator fileGenerator, IConfiguration configuration,
+            IDBRepository DBRepository, ILogApplication logApp)
         {
+            _DBRepository = DBRepository;
             _sharepointService = sharepointService;
-            //_controlDBRepository = controlDBRepository;
             _configuration = configuration;
             _fileGenerator = fileGenerator;
             _logApp = logApp;
@@ -31,8 +33,12 @@ namespace sharepointecs
         public void Run()
         {
             _logApp.Log("Começando...");
-            var getTokenSp = _sharepointService.GetAccessToken();
-            if (getTokenSp == null) { _logApp.Log("Não foi possível obter token"); }
+
+            var lstReports = _DBRepository.GetListControlDB();
+
+            _logApp.Log("total:" + lstReports.Count());
+            //var getTokenSp = _sharepointService.GetAccessToken();
+            //if (getTokenSp == null) { _logApp.Log("Não foi possível obter token"); }
         }
 
         public void WithControl()
